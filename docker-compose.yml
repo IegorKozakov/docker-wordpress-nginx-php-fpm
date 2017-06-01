@@ -1,0 +1,20 @@
+version: "2"
+services:
+  db:
+    image: mysql:5.6
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+  wordpress:
+    build: wordpress
+    links:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+  web:
+    build: nginx
+    volumes_from:
+      - wordpress
+    links:
+      - wordpress
+    ports:
+      - "8080:80"
