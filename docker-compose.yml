@@ -11,7 +11,7 @@ services:
     build: wordpress
     volumes:
       - html-data:/var/www/html
-    links:
+    depends_on:
       - db
     environment:
       WORDPRESS_DB_HOST: db:3306
@@ -19,7 +19,7 @@ services:
     build: nginx
     volumes:
       - html-data:/var/www/html
-    links:
+    depends_on:
       - wordpress
     ports:
       - "8080:80"
