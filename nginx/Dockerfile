@@ -1,9 +1,6 @@
-FROM nginx:alpine
-
-
 FROM alpine:3.5
 
-MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
+MAINTAINER Kajiku Moreau "master@zak1ck.info"
 
 ENV NGINX_VERSION 1.13.3
 ENV HEADERS_MORE_NGINX_MODULE_VERSION 0.32
