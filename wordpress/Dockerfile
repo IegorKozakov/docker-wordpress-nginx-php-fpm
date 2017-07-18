@@ -1,5 +1,10 @@
 FROM php:7.0-fpm
 
+ENV PHP_EXPOSE off
+ENV PHP_LOG_ERRORS 1
+ENV PHP_LOG_ERRORS_MAX 0
+ENV PHP_DISPLAY_ERRORS 0
+
 # install the PHP extensions we need
 RUN set -ex; \
 	\
@@ -23,7 +28,16 @@ RUN { \
 		echo 'opcache.revalidate_freq=2'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
-	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
+    && { \
+		echo 'expose_php=${PHP_EXPOSE}'; \
+        echo 'log_errors=${PHP_LOG_ERRORS}'; \
+        echo 'log_errors_max_len=${PHP_LOG_ERRORS_MAX}'; \
+        echo 'display_errors=${PHP_DISPLAY_ERRORS}'; \
+        echo 'error_log=/var/log/php/error.log'; \
+    } > /usr/local/etc/php/conf.d/default.ini \
+    && mkdir /var/log/php \
+	&& ln -sf /dev/stderr /var/log/php/error.log
 
 VOLUME /var/www/html
 
